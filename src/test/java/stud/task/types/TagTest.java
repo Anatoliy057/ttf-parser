@@ -2,6 +2,8 @@ package stud.task.types;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TagTest {
@@ -13,7 +15,7 @@ public class TagTest {
         };
         assertThrows(
                 SizeMismatchException.class,
-                () -> new Tag(charStringMax)
+                () -> new Tag(charStringMax, true)
         );
 
         byte[] byteStringMax = new byte[] {
@@ -29,7 +31,7 @@ public class TagTest {
         };
         assertThrows(
                 SizeMismatchException.class,
-                () -> new Tag(shortStringMax)
+                () -> new Tag(shortStringMax, true)
         );
 
         char[] charStringMin = new char[] {
@@ -37,7 +39,7 @@ public class TagTest {
         };
         assertThrows(
                 SizeMismatchException.class,
-                () -> new Tag(charStringMin)
+                () -> new Tag(charStringMin, true)
         );
 
         byte[] byteStringMin = new byte[] {
@@ -53,29 +55,31 @@ public class TagTest {
         };
         assertThrows(
                 SizeMismatchException.class,
-                () -> new Tag(shortStringMin)
+                () -> new Tag(shortStringMin, true)
         );
     }
 
     @Test
     void expectCorrectValue() {
+        System.out.println(Arrays.toString( new byte[] {(byte)0x89, (byte)0xAB, (byte)0xCD, (byte)0xEF}));
         assertDoesNotThrow(
                 () -> assertEquals(
-                        new Tag(new char[] {(char)0x89AB, (char)0xCDEF}).toInt(),
+                        new Tag(new char[] {(char)0x89AB, (char)0xCDEF}, true).toInt(),
                         0x89ABCDEF
                 )
         );
 
         assertDoesNotThrow(
                 () -> assertEquals(
-                        new Tag(new byte[] {(byte)0x89, (byte)0xAB, (byte)0xCD, (byte)0xEF}).toInt(),
+                        new Tag(
+                                new byte[] {(byte)0x89, (byte)0xAB, (byte)0xCD, (byte)0xEF}).toInt(),
                         0x89ABCDEF
                 )
         );
 
         assertDoesNotThrow(
                 () -> assertEquals(
-                        new Tag(new short[] {(short) 0x89AB, (short)0xCDEF}).toInt(),
+                        new Tag(new short[] {(short) 0x89AB, (short)0xCDEF}, true).toInt(),
                         0x89ABCDEF
                 )
         );

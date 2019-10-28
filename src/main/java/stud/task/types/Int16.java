@@ -15,7 +15,7 @@ public final class Int16 extends Number implements Comparable<Int16> {
 
     @Override
     public int compareTo(Int16 o) {
-        return shortValue() - o.shortValue();
+        return value - o.value;
     }
 
     @Override

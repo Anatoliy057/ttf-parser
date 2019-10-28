@@ -15,7 +15,7 @@ public final class FWord extends Number implements Comparable<FWord> {
 
     @Override
     public int compareTo(FWord o) {
-        return shortValue() - o.shortValue();
+        return value - o.value;
     }
 
     @Override

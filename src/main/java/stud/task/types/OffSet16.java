@@ -15,8 +15,12 @@ public final class OffSet16 extends Number implements Comparable<OffSet16> {
         this.value = value;
     }
 
+    public int unsigned() {
+        return value;
+    }
+
     public int compareTo(OffSet16 o) {
-        return intValue() - o.intValue();
+        return value - o.value;
     }
 
     public int intValue() {

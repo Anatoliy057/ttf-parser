@@ -16,9 +16,13 @@ public final class UInt24 extends Number implements Comparable<UInt24> {
         this.value = value;
     }
 
+    public int unsigned() {
+        return value;
+    }
+
     @Override
     public int compareTo(UInt24 o) {
-        return intValue() - o.intValue();
+        return value - o.value;
     }
 
     @Override

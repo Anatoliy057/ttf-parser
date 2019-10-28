@@ -15,8 +15,12 @@ public final class UFWord extends Number implements Comparable<UFWord> {
         this.value = value;
     }
 
+    public int unsigned() {
+        return value;
+    }
+
     public int compareTo(UFWord o) {
-        return intValue() - o.intValue();
+        return value - o.value;
     }
 
     public int intValue() {

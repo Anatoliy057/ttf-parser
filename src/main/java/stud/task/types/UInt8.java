@@ -15,9 +15,12 @@ public final class UInt8 extends Number implements Comparable<UInt8> {
         this.value = value;
     }
 
+    public short unsigned() {
+        return value;
+    }
 
     public int compareTo(UInt8 o) {
-        return shortValue() - o.shortValue();
+        return value - o.value;
     }
 
     public int intValue() {

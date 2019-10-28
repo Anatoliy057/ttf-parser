@@ -15,7 +15,7 @@ public final class Int32 extends Number implements Comparable<Int32> {
 
     @Override
     public int compareTo(Int32 o) {
-        return shortValue() - o.shortValue();
+        return value - o.value;
     }
 
     @Override

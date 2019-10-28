@@ -15,8 +15,12 @@ public final class UInt16 extends Number implements Comparable<UInt16> {
         this.value = value;
     }
 
+    public int unsigned() {
+        return value;
+    }
+
     public int compareTo(UInt16 o) {
-        return intValue() - o.intValue();
+        return value - o.value;
     }
 
     public int intValue() {

@@ -15,7 +15,7 @@ public final class Int8 extends Number implements Comparable<Int8> {
 
     @Override
     public int compareTo(Int8 o) {
-        return byteValue() - o.byteValue();
+        return value - o.value;
     }
 
     @Override

@@ -15,9 +15,13 @@ public final class OffSet32 extends Number implements Comparable<OffSet32> {
         this.value = value;
     }
 
+    public long unsigned() {
+        return value;
+    }
+
     @Override
     public int compareTo(OffSet32 o) {
-        return (int) (longValue() - o.longValue());
+        return (int) (value - o.value);
     }
 
     @Override

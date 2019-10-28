@@ -16,9 +16,13 @@ public final class UInt32 extends Number implements Comparable<UInt32> {
         this.value = value;
     }
 
+    public long unsigned() {
+        return value;
+    }
+
     @Override
     public int compareTo(UInt32 o) {
-        return (int) (longValue() - o.longValue());
+        return (int) (value - o.value);
     }
 
     @Override
