@@ -17,9 +17,9 @@ public final class ConvertPrimitives {
      *
      * @param src    the number itself.
      * @param offset the offset by number.
-     *        Represents the count of bytes of the number
+     *        Represents the count of bits of the number
      *        into which the src will be split up.
-     *        Size of array will equals count of bytes src divide offset.
+     *        Size of array will equals count of bits src divide offset.
      * @return array, which has obtained in result of split up src.
      */
 
@@ -206,9 +206,9 @@ public final class ConvertPrimitives {
     /**
      * They provide the same functionality as the methods they are composing,
      * but only with the condition that param offset by default is equal to
-     * the count of bytes of the primitive of the returning array.
+     * the count of bits of the primitive of the returning array.
      *
-     * Cases, when count of bytes of src <= count of bytes primitive of the array,
+     * Cases, when count of bits of src <= count of bits primitive of the array,
      * ignored for obvious reasons.
      *
      * @param src  the number itself.
@@ -262,7 +262,7 @@ public final class ConvertPrimitives {
      * Type of splitting number can be: byte, short, int, long.
      * Type of array can be: boolean, byte, short, int, long.
      *
-     * Offset for number equals count bytes of type of the splitting
+     * Offset for number equals count bits of type of the splitting
      * number divided length of range
      *
      * @param src   splitting number itself.
@@ -546,7 +546,7 @@ public final class ConvertPrimitives {
      *
      * @param arr     array to be converted to a number
      * @param offset  the offset by number.
-     *        Represents the count of bytes of the number from array
+     *        Represents the count of bits of the number from array
      *        which will be written in number of result.
      * @param start   start index of range in array
      * @param end     end index of range in array
@@ -745,12 +745,12 @@ public final class ConvertPrimitives {
      * but only with the condition that range is equal to
      * size of given array.
      *
-     * Cases, when count of bytes of src <= count of bytes primitive of the array,
+     * Cases, when count of bits of src <= count of bits primitive of the array,
      * ignored for obvious reasons.
      *
      * @param arr     array to be converted to a number
      * @param offset  the offset by number.
-     *        Represents the count of bytes of the number from array
+     *        Represents the count of bits of the number from array
      *        which will be written in number of result.
      *
      * @return number result of array join

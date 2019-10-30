@@ -141,6 +141,33 @@ public class TTFReader {
         }
     }
 
+    public F2DOT14 readF2DOT14() throws IOException, StreamOutOfFileException {
+        int[] buff = new int[2];
+        read(buff);
+        if (checkOut(buff))
+            throw new StreamOutOfFileException("when trying to read F2DOT14");
+        short value = arrToShort(offset, buff);
+        return new F2DOT14(value);
+    }
+
+    public Fixed readFixed() throws IOException, StreamOutOfFileException {
+        int[] buff = new int[4];
+        read(buff);
+        if (checkOut(buff))
+            throw new StreamOutOfFileException("when trying to read Fixed");
+        int value = arrToInt(offset, buff);
+        return new Fixed(value);
+    }
+
+    public LongDateTime readLongDateTime() throws IOException, StreamOutOfFileException {
+        int[] buff = new int[8];
+        read(buff);
+        if (checkOut(buff))
+            throw new StreamOutOfFileException("when trying to read LongDateTime");
+        long value = arrToLong(offset, buff);
+        return new LongDateTime(value);
+    }
+
     public int read() throws IOException {
         return io.read();
     }

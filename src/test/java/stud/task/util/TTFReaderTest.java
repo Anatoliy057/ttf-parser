@@ -140,4 +140,15 @@ class TTFReaderTest {
             assertEquals("OS/2", reader.readTag().toString());
         });
     }
+
+    @Test
+    void expectCorrectReadLongDateTime() {
+        assertDoesNotThrow(() -> {
+            while (reader.available() > 8) {
+                long value = arrToLong(offset, pReader.read(), pReader.read(), pReader.read(), pReader.read(),
+                        pReader.read(), pReader.read(), pReader.read(), pReader.read());
+                assertEquals(value, reader.readLongDateTime().longValue());
+            }
+        });
+    }
 }

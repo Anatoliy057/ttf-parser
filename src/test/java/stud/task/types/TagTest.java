@@ -6,10 +6,10 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TagTest {
+class TagTest {
 
     @Test
-    void exceptTagThrowException() {
+    void expectTagThrowException() {
         char[] charStringMax = new char[] {
                 0, 0, 0
         };

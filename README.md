@@ -16,3 +16,6 @@ Supported variable types:
 - Tag
 - OffSet16
 - OffSet32
+- F2DOT14
+- Fixed
+- LongDateTime

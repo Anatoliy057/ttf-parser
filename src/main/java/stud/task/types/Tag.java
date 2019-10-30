@@ -1,11 +1,13 @@
 package stud.task.types;
 
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import static stud.task.util.ConvertPrimitives.*;
 
 public final class Tag {
+    public final static Charset CHARSET = StandardCharsets.UTF_8;
     private final int NUMBER_OF_BYTES = 4;
 
     private final byte[] string;
@@ -82,6 +84,6 @@ public final class Tag {
 
     @Override
     public String toString() {
-        return new String(string, StandardCharsets.UTF_8);
+        return new String(string, CHARSET);
     }
 }
