@@ -1,26 +1,34 @@
 package stud.task.util;
-
+import stud.task.exception.NumberOutOfRangeException;
+import stud.task.exception.SizeMismatchException;
+import stud.task.exception.StreamOutOfFileException;
 import stud.task.types.*;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 import static stud.task.util.ConvertPrimitives.*;
 
-public class TTFReader {
+public class TTFReader implements TTFInputStream {
 
-    private InputStream io;
+    private InputStream in;
     private final int offset = 8;
+    private long distance;
 
-    public TTFReader(InputStream io) throws IOException {
-        if (io.markSupported())
-            this.io = io;
+    public TTFReader(InputStream in) throws IOException {
+        if (in.markSupported())
+            this.in = in;
         else
             throw new IOException("mark/reset not supported that must be");
     }
 
+    public TTFReader(File file) throws FileNotFoundException {
+        in = new BufferedInputStream(
+                new FileInputStream(file)
+        );
+    }
+
     public Int8 readInt8() throws IOException, StreamOutOfFileException {
-        int buff = io.read();
+        int buff = in.read();
         if (checkOut(buff))
             throw new StreamOutOfFileException("when trying to read Int8");
         return new Int8((byte) buff);
@@ -28,7 +36,7 @@ public class TTFReader {
 
     public UInt8 readUInt8() throws IOException, StreamOutOfFileException {
         try {
-            return new UInt8((short) io.read());
+            return new UInt8((short) in.read());
         } catch (NumberOutOfRangeException e) {
             throw new StreamOutOfFileException("when trying to read UInt8");
         }
@@ -168,34 +176,30 @@ public class TTFReader {
         return new LongDateTime(value);
     }
 
-    public int read() throws IOException {
-        return io.read();
-    }
-
-    public void read(int[] buff) throws IOException {
+    private void read(int[] buff) throws IOException {
         for (int i = 0; i < buff.length; i++) {
-            buff[i] = io.read();
+            buff[i] = in.read();
         }
     }
 
     public void mark(int readAheadLimit) {
-        io.mark(readAheadLimit);
+        in.mark(readAheadLimit);
     }
 
     public void reset() throws IOException {
-        io.reset();
+        in.reset();
     }
 
     public long skip(long n) throws IOException {
-        return io.skip(n);
+        return in.skip(n);
     }
 
     public long available() throws IOException {
-        return io.available();
+        return in.available();
     }
 
     public void close() throws IOException {
-        io.close();
+        in.close();
     }
 
     private boolean checkOut(int...buff) {

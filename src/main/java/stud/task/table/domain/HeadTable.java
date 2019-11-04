@@ -1,4 +1,4 @@
-package stud.task.domain;
+package stud.task.table.domain;
 
 import stud.task.types.OffSet32;
 import stud.task.types.Tag;
@@ -7,13 +7,13 @@ import stud.task.types.UInt32;
 import java.util.Objects;
 
 public class HeadTable {
-    private Tag id;
+    private Tag tag;
     private UInt32 checkSum;
     private OffSet32 offSet;
     private UInt32 size;
 
-    public HeadTable(Tag id, UInt32 checkSum, OffSet32 offSet, UInt32 size) {
-        this.id = id;
+    public HeadTable(Tag tag, UInt32 checkSum, OffSet32 offSet, UInt32 size) {
+        this.tag = tag;
         this.checkSum = checkSum;
         this.offSet = offSet;
         this.size = size;
@@ -21,12 +21,12 @@ public class HeadTable {
 
     public HeadTable() {}
 
-    public Tag getId() {
-        return id;
+    public Tag getTag() {
+        return tag;
     }
 
-    public void setId(Tag id) {
-        this.id = id;
+    public void setTag(Tag tag) {
+        this.tag = tag;
     }
 
     public UInt32 getCheckSum() {
@@ -58,18 +58,18 @@ public class HeadTable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         HeadTable headTable = (HeadTable) o;
-        return Objects.equals(id, headTable.id);
+        return Objects.equals(tag, headTable.tag);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(tag);
     }
 
     @Override
     public String toString() {
         return "HeadTable{" +
-                "id=" + id +
+                "tag=" + tag +
                 ", checkSum=" + checkSum +
                 ", offSet=" + offSet +
                 ", size=" + size +

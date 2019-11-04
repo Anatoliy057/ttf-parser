@@ -1,5 +1,7 @@
 package stud.task.types;
 
+import stud.task.exception.NumberOutOfRangeException;
+
 import java.lang.annotation.Native;
 import java.util.Objects;
 

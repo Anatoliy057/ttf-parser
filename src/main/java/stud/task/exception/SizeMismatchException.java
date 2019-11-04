@@ -1,9 +1,9 @@
-package stud.task.types;
+package stud.task.exception;
 
 public class SizeMismatchException extends Exception {
 
     public SizeMismatchException(int expectSize, int wrongSize) {
-        super(String.format("Expect size %d is not equal size %d", expectSize, wrongSize));
+        super(String.format("Expect size %d in not equal size %d", expectSize, wrongSize));
     }
 
     public SizeMismatchException() {

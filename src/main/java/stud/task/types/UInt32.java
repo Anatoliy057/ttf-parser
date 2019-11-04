@@ -1,5 +1,7 @@
 package stud.task.types;
 
+import stud.task.exception.NumberOutOfRangeException;
+
 import java.lang.annotation.Native;
 import java.util.Objects;
 
@@ -14,6 +16,22 @@ public final class UInt32 extends Number implements Comparable<UInt32> {
         if (value > MAX_VALUE || value < MIN_VALUE)
             throw new NumberOutOfRangeException(value, MAX_VALUE, MIN_VALUE);
         this.value = value;
+    }
+
+    public UInt32(UInt32 uInt32) {
+        value = uInt32.value;
+    }
+
+    public UInt32(UInt24 uInt24) {
+        value = uInt24.longValue();
+    }
+
+    public UInt32(UInt16 uInt16) {
+        value = uInt16.longValue();
+    }
+
+    public UInt32(UInt8 uInt8) {
+        value = uInt8.longValue();
     }
 
     public long unsigned() {

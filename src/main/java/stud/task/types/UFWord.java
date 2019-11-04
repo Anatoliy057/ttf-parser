@@ -1,5 +1,7 @@
 package stud.task.types;
 
+import stud.task.exception.NumberOutOfRangeException;
+
 import java.lang.annotation.Native;
 import java.util.Objects;
 
@@ -13,6 +15,18 @@ public final class UFWord extends Number implements Comparable<UFWord> {
         if (value > MAX_VALUE || value < MIN_VALUE)
             throw new NumberOutOfRangeException(value, MAX_VALUE, MIN_VALUE);
         this.value = value;
+    }
+
+    public UFWord(short value) {
+        this.value = value & 0xFFFF;
+    }
+
+    public UFWord(UInt16 uInt16) {
+        this.value = uInt16.intValue();
+    }
+
+    public UFWord(UInt8 uInt8) {
+        this.value = uInt8.intValue();
     }
 
     public int unsigned() {

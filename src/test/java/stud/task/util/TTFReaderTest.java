@@ -1,5 +1,6 @@
 package stud.task.util;
 
+import org.apache.log4j.Level;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import stud.task.service.ResLoader;
@@ -21,7 +22,7 @@ class TTFReaderTest {
         File file = rs.getFile("wendy.ttf");
         pReader = new BufferedInputStream(new FileInputStream(file));
         BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-        reader = new TTFReader(bis);
+        reader = new TTFReaderLogs(bis, Level.DEBUG);
     }
 
     @Test

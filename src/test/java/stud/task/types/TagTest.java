@@ -1,6 +1,7 @@
 package stud.task.types;
 
 import org.junit.jupiter.api.Test;
+import stud.task.exception.SizeMismatchException;
 
 import java.util.Arrays;
 

@@ -1,5 +1,7 @@
 package stud.task.types;
 
+import stud.task.exception.NumberOutOfRangeException;
+
 import java.lang.annotation.Native;
 import java.util.Objects;
 
@@ -13,6 +15,14 @@ public final class UInt8 extends Number implements Comparable<UInt8> {
         if (value > MAX_VALUE || value < MIN_VALUE)
             throw new NumberOutOfRangeException(value, MAX_VALUE, MIN_VALUE);
         this.value = value;
+    }
+
+    public UInt8(byte value) {
+        this.value = (short) (value & 0xFF);
+    }
+
+    public UInt8(UInt8 uInt8) {
+        this.value = uInt8.value;
     }
 
     public short unsigned() {

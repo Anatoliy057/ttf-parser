@@ -205,7 +205,7 @@ public final class ConvertPrimitives {
 
     /**
      * They provide the same functionality as the methods they are composing,
-     * but only with the condition that param offset by default is equal to
+     * but only with the condition that param offset by default in equal to
      * the count of bits of the primitive of the returning array.
      *
      * Cases, when count of bits of src <= count of bits primitive of the array,
@@ -742,7 +742,7 @@ public final class ConvertPrimitives {
 
     /**
      * They provide the same functionality as the methods they are composing,
-     * but only with the condition that range is equal to
+     * but only with the condition that range in equal to
      * size of given array.
      *
      * Cases, when count of bits of src <= count of bits primitive of the array,

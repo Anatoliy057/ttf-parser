@@ -1,5 +1,7 @@
 package stud.task.types;
 
+import stud.task.exception.NumberOutOfRangeException;
+
 import java.lang.annotation.Native;
 import java.util.Objects;
 
@@ -13,6 +15,26 @@ public final class OffSet32 extends Number implements Comparable<OffSet32> {
         if (value > MAX_VALUE || value < MIN_VALUE)
             throw new NumberOutOfRangeException(value, MAX_VALUE, MIN_VALUE);
         this.value = value;
+    }
+
+    public OffSet32(int value) {
+        this.value = Integer.toUnsignedLong(value);
+    }
+
+    public OffSet32(UInt32 uInt32) {
+        value = uInt32.longValue();
+    }
+
+    public OffSet32(UInt24 uInt24) {
+        value = uInt24.longValue();
+    }
+
+    public OffSet32(UInt16 uInt16) {
+        value = uInt16.longValue();
+    }
+
+    public OffSet32(UInt8 uInt8) {
+        value = uInt8.longValue();
     }
 
     public long unsigned() {

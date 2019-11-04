@@ -4,7 +4,7 @@ import java.lang.annotation.Native;
 import java.util.Date;
 import java.util.Objects;
 
-public class LongDateTime extends Number implements Comparable<LongDateTime> {
+public final class LongDateTime extends Number implements Comparable<LongDateTime> {
 
     @Native public static final long MAX_VALUE = Long.MAX_VALUE;
     @Native public static final long MIN_VALUE = Long.MIN_VALUE;

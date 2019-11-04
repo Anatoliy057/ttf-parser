@@ -5,3 +5,6 @@
 # Out
 target/*
 out/*
+
+# Log
+.logs/*
