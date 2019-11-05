@@ -2,9 +2,8 @@ package stud.task.table.required;
 
 import org.apache.log4j.Logger;
 import stud.task.encoding.Encoding;
-import stud.task.exception.FormatTableException;
+import stud.task.exception.TTFTableFormatException;
 import stud.task.exception.StreamOutOfFileException;
-import stud.task.exception.TTFTableMismatchSizeException;
 import stud.task.table.domain.HeadTable;
 import stud.task.table.MainTable;
 import stud.task.table.subtable.cmap.SegMap;
@@ -33,7 +32,7 @@ public class CMap extends MainTable {
     }
 
     @Override
-    public void read(TTFInputStream in) throws IOException, TTFTableMismatchSizeException, FormatTableException {
+    public void read(TTFInputStream in) throws IOException, TTFTableFormatException {
         try {
             long start = in.available();
             version = in.readUInt16();

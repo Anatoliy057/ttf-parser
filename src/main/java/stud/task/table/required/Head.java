@@ -1,13 +1,12 @@
 package stud.task.table.required;
 
 import org.apache.log4j.Logger;
-import stud.task.exception.TTFTableMismatchSizeException;
+import stud.task.exception.TTFTableFormatException;
 import stud.task.table.MainTable;
 import stud.task.table.domain.HeadTable;
 import stud.task.types.*;
 import stud.task.exception.StreamOutOfFileException;
 import stud.task.util.TTFInputStream;
-import stud.task.util.TTFReader;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -45,7 +44,7 @@ public class Head extends MainTable {
     }
 
     @Override
-    public void read(TTFInputStream in) throws IOException, TTFTableMismatchSizeException {
+    public void read(TTFInputStream in) throws IOException, TTFTableFormatException {
         try {
             long start = in.available();
 

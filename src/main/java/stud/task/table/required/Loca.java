@@ -1,9 +1,8 @@
 package stud.task.table.required;
 
 import org.apache.log4j.Logger;
-import stud.task.exception.FormatTableException;
+import stud.task.exception.TTFTableFormatException;
 import stud.task.exception.StreamOutOfFileException;
-import stud.task.exception.TTFTableMismatchSizeException;
 import stud.task.table.MainTable;
 import stud.task.table.domain.HeadTable;
 import stud.task.types.Int16;
@@ -12,7 +11,6 @@ import stud.task.types.UInt16;
 import stud.task.util.TTFInputStream;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.function.Function;
 
 import static org.apache.log4j.Level.ERROR;
@@ -37,7 +35,7 @@ public class Loca extends MainTable {
     }
 
     @Override
-    public void read(TTFInputStream in) throws IOException, TTFTableMismatchSizeException, FormatTableException {
+    public void read(TTFInputStream in) throws IOException, TTFTableFormatException {
         try {
             short version = indexToLocFormat.shortValue();
             long start = in.available();
@@ -52,7 +50,7 @@ public class Loca extends MainTable {
                     offsets[i] = in.readOffSet32();
                 }
             } else {
-                throw new FormatTableException(String.format("Format loca: actually: %d, expect: 1 || 0", version));
+                throw new TTFTableFormatException(String.format("Version loca: actually: %d, expect: 1 || 0", version));
             }
             long size = start - in.available();
             checkSize(size);

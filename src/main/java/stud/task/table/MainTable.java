@@ -1,10 +1,8 @@
 package stud.task.table;
 
-import stud.task.exception.TTFTableMismatchSizeException;
+import stud.task.exception.TTFTableFormatException;
 import stud.task.table.domain.HeadTable;
 import stud.task.types.Tag;
-
-import java.io.IOException;
 
 public abstract class MainTable implements Table {
 
@@ -17,9 +15,9 @@ public abstract class MainTable implements Table {
         length = headTable.getSize().unsigned();
     }
 
-    protected void checkSize(long actuallySize) throws TTFTableMismatchSizeException {
+    protected void checkSize(long actuallySize) throws TTFTableFormatException {
         if (actuallySize != headTable.getSize().unsigned())
-            throw new TTFTableMismatchSizeException(this.getClass(), actuallySize, headTable.getSize().unsigned());
+            throw new TTFTableFormatException(String.format("%s table size does not match expected", tag()), actuallySize, headTable.getSize().unsigned());
     }
 
     public Tag tag() {

@@ -1,21 +1,17 @@
 # TTF Parsers on Java
 
-## Types
+## Supported tables:
 
-Supported variable types:
+- cmap
+- head
+- hhea
+- hmtx
+- loca
+- maxp
+- hdmx
 
-- Int8
-- Uint8
-- Int16
-- Uint16
-- Uint24
-- Int32
-- Uint32
-- FWord
-- URWord
-- Tag
-- OffSet16
-- OffSet32
-- F2DOT14
-- Fixed
-- LongDateTime
+## Supported formats of encoding:
+
+- 4
+
+

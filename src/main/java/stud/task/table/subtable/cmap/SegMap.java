@@ -3,9 +3,8 @@ package stud.task.table.subtable.cmap;
 import org.apache.log4j.Logger;
 import stud.task.encoding.EncodingFormat4;
 import stud.task.encoding.Encoding;
-import stud.task.exception.FormatTableException;
+import stud.task.exception.TTFTableFormatException;
 import stud.task.exception.StreamOutOfFileException;
-import stud.task.exception.TTFTableMismatchSizeException;
 import stud.task.table.required.CMap;
 import stud.task.types.Int16;
 import stud.task.types.UInt16;
@@ -42,12 +41,12 @@ public class SegMap extends SubTableCMap {
     }
 
     @Override
-    public void read(TTFInputStream in) throws IOException, FormatTableException, TTFTableMismatchSizeException {
+    public void read(TTFInputStream in) throws IOException, TTFTableFormatException {
         try {
             long start = in.available();
             UInt16 format = in.readUInt16();
             if (!this.format.equals(format)) {
-                throw new FormatTableException("Format subtable SegMap by CMap is wrong", format, this.format);
+                throw new TTFTableFormatException("Format subtable SegMap by CMap is wrong", format, this.format);
             }
             length = in.readUInt16();
             UInt16 lang = in.readUInt16();

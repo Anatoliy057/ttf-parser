@@ -1,7 +1,7 @@
 package stud.task.table.subtable.cmap;
 
 import stud.task.encoding.Encoding;
-import stud.task.exception.TTFTableMismatchSizeException;
+import stud.task.exception.TTFTableFormatException;
 import stud.task.table.Table;
 import stud.task.table.required.CMap;
 import stud.task.types.UInt16;
@@ -14,9 +14,9 @@ public abstract class SubTableCMap implements Table {
         this.record = record;
     }
 
-    protected void checkSize(long actuallySize, long expectSize) throws TTFTableMismatchSizeException {
+    protected void checkSize(long actuallySize, long expectSize) throws TTFTableFormatException {
         if (expectSize != actuallySize)
-            throw new TTFTableMismatchSizeException(this.getClass(), actuallySize, expectSize);
+            throw new TTFTableFormatException(String.format("Size subtable cmap of platform: %s, encoding: %s does not match expected", getPlatformID(), getEncodingID()), actuallySize, expectSize);
     }
 
     public UInt16 getPlatformID() {

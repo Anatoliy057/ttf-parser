@@ -1,8 +1,8 @@
 package stud.task.table.required;
 
 import org.apache.log4j.Logger;
+import stud.task.exception.TTFTableFormatException;
 import stud.task.exception.StreamOutOfFileException;
-import stud.task.exception.TTFTableMismatchSizeException;
 import stud.task.table.domain.HeadTable;
 import stud.task.table.MainTable;
 import stud.task.types.Int16;
@@ -24,14 +24,16 @@ public class HMtx extends MainTable {
     private LongHorMetric[] longHorMetric;
     private Int16[] leftSideBearings;
 
-    public HMtx(HeadTable headTable, UInt16 numberOfHMetrics, UInt16 numGlyphs) {
+    public HMtx(HeadTable headTable, HHea hhea, MaxP maxp) {
         super(headTable);
-        longHorMetric = new LongHorMetric[numberOfHMetrics.unsigned()];
-        leftSideBearings = new Int16[numGlyphs.unsigned() - numberOfHMetrics.unsigned()];
+        int numberOfHMetrics = hhea.getNumberOfHMetrics().unsigned();
+        int numGlyphs = maxp.getNumGlyphs().unsigned();
+        longHorMetric = new LongHorMetric[numberOfHMetrics];
+        leftSideBearings = new Int16[numGlyphs - numberOfHMetrics];
     }
 
     @Override
-    public void read(TTFInputStream in) throws TTFTableMismatchSizeException, IOException {
+    public void read(TTFInputStream in) throws TTFTableFormatException, IOException {
         try {
             long start = in.available();
             for (int i = 0; i < longHorMetric.length; i++) {

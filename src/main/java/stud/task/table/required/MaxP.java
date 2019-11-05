@@ -1,8 +1,8 @@
 package stud.task.table.required;
 
 import org.apache.log4j.Logger;
+import stud.task.exception.TTFTableFormatException;
 import stud.task.exception.StreamOutOfFileException;
-import stud.task.exception.TTFTableMismatchSizeException;
 import stud.task.table.MainTable;
 import stud.task.table.domain.HeadTable;
 import stud.task.types.Fixed;
@@ -43,7 +43,7 @@ public class MaxP extends MainTable {
     }
 
     @Override
-    public void read(TTFInputStream in) throws TTFTableMismatchSizeException, IOException {
+    public void read(TTFInputStream in) throws IOException, TTFTableFormatException {
         try {
             long start = in.available();
             version = in.readFixed();
