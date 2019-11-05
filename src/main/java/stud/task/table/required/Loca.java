@@ -27,10 +27,10 @@ public class Loca extends MainTable {
 
     private Function<Integer, Long> getOffset;
 
-    public Loca(HeadTable headTable, Int16 indexToLocFormat, UInt16 numGlyphs) {
+    public Loca(HeadTable headTable, Head head, MaxP maxp) {
         super(headTable);
-        this.indexToLocFormat = indexToLocFormat;
-        this.numGlyphs = numGlyphs;
+        this.indexToLocFormat = head.getIndexToLocFormat();
+        this.numGlyphs = maxp.getNumGlyphs();
         offsets = new Number[numGlyphs.unsigned()+1];
     }
 
@@ -61,5 +61,13 @@ public class Loca extends MainTable {
 
     public Number getOffset(int index) {
         return getOffset.apply(index);
+    }
+
+    public Int16 getIndexToLocFormat() {
+        return indexToLocFormat;
+    }
+
+    public UInt16 getNumGlyphs() {
+        return numGlyphs;
     }
 }

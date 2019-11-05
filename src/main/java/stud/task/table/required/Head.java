@@ -71,6 +71,8 @@ public class Head extends MainTable {
             lowerRecPPEM = in.readUInt16();
             fontDirectionHint = in.readInt16();
             indexToLocFormat = in.readInt16();
+            if (indexToLocFormat.shortValue() > 1 || indexToLocFormat.shortValue() < 0)
+                throw new TTFTableFormatException(String.format("Version loca: actually: %d, expect: 1 || 0", indexToLocFormat));
             glyphDataFormat = in.readInt16();
 
             checkSize(start - in.available());

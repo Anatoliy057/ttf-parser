@@ -16,7 +16,7 @@ class HMtxTest {
 
     private TTFInputStream in;
     private TTFHead ttfHead;
-    private MaxP maxP;
+    private MaxP maxp;
     private HHea hhea;
 
     @BeforeEach
@@ -32,8 +32,8 @@ class HMtxTest {
             HeadTable ht = ttfHead.getHeadTable(MaxP.TAG);
             in.mark((int) ht.getSize().unsigned());
             in.skip(ht.getOffSet().unsigned());
-            maxP = new MaxP(ht);
-            maxP.read(in);
+            maxp = new MaxP(ht);
+            maxp.read(in);
             in.reset();
 
             ht = ttfHead.getHeadTable(HHea.TAG);
@@ -50,7 +50,7 @@ class HMtxTest {
         assertDoesNotThrow(() -> {
             HeadTable ht = ttfHead.getHeadTable(HMtx.TAG);
             in.skip(ht.getOffSet().unsigned());
-            HMtx hmtx = new HMtx(ht, hhea.getNumberOfHMetrics(), maxP.getNumGlyphs());
+            HMtx hmtx = new HMtx(ht, hhea, maxp);
             hmtx.read(in);
             System.out.println(hmtx);
         });

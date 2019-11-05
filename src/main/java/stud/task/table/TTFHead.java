@@ -2,6 +2,7 @@ package stud.task.table;
 
 import org.apache.log4j.Logger;
 import stud.task.exception.StreamOutOfFileException;
+import stud.task.exception.TTFTableFormatException;
 import stud.task.table.domain.HeadTable;
 import stud.task.types.Tag;
 import stud.task.types.UInt16;
@@ -28,7 +29,7 @@ public class TTFHead implements Table {
     private UInt16 shiftRange;
     private Map<Tag, HeadTable> map;
 
-    public void read(TTFInputStream in) throws IOException, TTFTableMismatchSizeException {
+    public void read(TTFInputStream in) throws IOException, TTFTableFormatException {
         try {
             long start = in.available();
             version = in.readUInt32();
@@ -49,7 +50,7 @@ public class TTFHead implements Table {
             long actuallySize = start - in.available();
             long expectSize =  SIZE_HEAD_TABLE*countTable.unsigned() + SIZE_HEAD_TTF;
             if (actuallySize != expectSize)
-                throw new TTFTableMismatchSizeException(this.getClass(), actuallySize, expectSize);
+                throw new TTFTableFormatException(String.format("%s size does not match expected", getClass().getSimpleName()), actuallySize, expectSize);
         } catch (StreamOutOfFileException e) {
             LOGGER.log(ERROR, e);
         }

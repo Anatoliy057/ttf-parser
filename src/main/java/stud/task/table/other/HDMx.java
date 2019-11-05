@@ -2,6 +2,7 @@ package stud.task.table.other;
 
 import org.apache.log4j.Logger;
 import stud.task.exception.StreamOutOfFileException;
+import stud.task.exception.TTFTableFormatException;
 import stud.task.table.MainTable;
 import stud.task.table.Table;
 import stud.task.table.domain.HeadTable;
@@ -32,7 +33,7 @@ public class HDMx extends MainTable {
     }
 
     @Override
-    public void read(TTFInputStream in) throws TTFTableMismatchSizeException, IOException {
+    public void read(TTFInputStream in) throws TTFTableFormatException, IOException {
         try {
             long start = in.available();
             version = in.readUInt16();

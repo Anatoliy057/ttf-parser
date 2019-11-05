@@ -12,12 +12,11 @@ import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class LocaTest {
+class GlyfTest {
 
     private TTFInputStream in;
     private TTFHead ttfHead;
-    private MaxP maxp;
-    private Head head;
+    private Loca loca;
 
     @BeforeEach
     void setUp() {
@@ -32,15 +31,22 @@ class LocaTest {
             HeadTable ht = ttfHead.getHeadTable(MaxP.TAG);
             in.mark((int) ht.getSize().unsigned());
             in.skip(ht.getOffSet().unsigned());
-            maxp = new MaxP(ht);
+            MaxP maxp = new MaxP(ht);
             maxp.read(in);
             in.reset();
 
             ht = ttfHead.getHeadTable(Head.TAG);
             in.mark((int) ht.getSize().unsigned());
             in.skip(ht.getOffSet().unsigned());
-            head = new Head(ht);
+            Head head = new Head(ht);
             head.read(in);
+            in.reset();
+
+            ht = ttfHead.getHeadTable(Loca.TAG);
+            in.mark((int) ht.getSize().unsigned());
+            in.skip(ht.getOffSet().unsigned());
+            loca = new Loca(ht, head, maxp);
+            loca.read(in);
             in.reset();
         });
     }
@@ -48,10 +54,11 @@ class LocaTest {
     @Test
     void expectDoesNotThrowOnInit() {
         assertDoesNotThrow(() -> {
-            HeadTable ht = ttfHead.getHeadTable(Loca.TAG);
+            HeadTable ht = ttfHead.getHeadTable(Glyf.TAG);
             in.skip(ht.getOffSet().unsigned());
-            Loca loca = new Loca(ht, head, maxp);
-            loca.read(in);
+            Glyf glyf = new Glyf(ht, loca);
+            glyf.read(in);
         });
     }
+
 }

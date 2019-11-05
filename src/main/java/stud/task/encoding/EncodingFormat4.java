@@ -41,8 +41,6 @@ public class EncodingFormat4 implements Encoding {
             rangeOffset.put(p.getKey(), startGlyphArray);
             startGlyphArray += size;
         }
-        System.out.println(Arrays.toString(segments));
-        System.out.println(Arrays.toString(idDelta));
     }
 
     @Override
