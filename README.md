@@ -3,6 +3,7 @@
 ## Supported tables:
 
 - cmap
+- glyf
 - head
 - hhea
 - hmtx

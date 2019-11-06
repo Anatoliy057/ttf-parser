@@ -2,6 +2,7 @@ package stud.task.table.required;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import stud.task.model.Glyph;
 import stud.task.service.ResLoader;
 import stud.task.table.TTFHead;
 import stud.task.table.domain.HeadTable;

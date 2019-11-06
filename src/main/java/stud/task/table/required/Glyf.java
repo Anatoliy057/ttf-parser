@@ -3,10 +3,11 @@ package stud.task.table.required;
 import org.apache.log4j.Logger;
 import stud.task.exception.StreamOutOfFileException;
 import stud.task.exception.TTFTableFormatException;
+import stud.task.model.Glyph;
 import stud.task.table.MainTable;
-import stud.task.table.domain.Glyph;
+import stud.task.table.subtable.glyf.SubTableGlyf;
 import stud.task.table.domain.HeadTable;
-import stud.task.table.domain.SimpleGlyph;
+import stud.task.table.subtable.glyf.SimpleGlyf;
 import stud.task.types.Int16;
 import stud.task.types.Tag;
 import stud.task.util.TTFInputStream;
@@ -43,8 +44,9 @@ public class Glyf extends MainTable {
                     in.skip(length-2);
                     continue;
                 }
-                glyphs[i] = new SimpleGlyph(sizeGlyph, numberOfContours);
-                glyphs[i].read(in);
+                SubTableGlyf sbt = new SimpleGlyf(sizeGlyph, numberOfContours);
+                sbt.read(in);
+                glyphs[i] = sbt.getGlyph();
             }
             checkSize(start - in.available());
         } catch (StreamOutOfFileException e) {
@@ -52,19 +54,14 @@ public class Glyf extends MainTable {
         }
     }
 
+    public Glyph[] getGlyphs() {
+        return glyphs;
+    }
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder(Glyf.class.getSimpleName());
-        sb.append("[glyphs=[\n");
-        for (int i = 0; i < glyphs.length-1; i++) {
-            sb.append('\t');
-            sb.append(glyphs[i]);
-            sb.append(",\n");
-        }
-        sb.append('\t');
-        sb.append(glyphs[glyphs.length-1]);
-        sb.append('\n');
-        sb.append("]]");
-        return sb.toString();
+        return new StringJoiner(", ", Glyf.class.getSimpleName() + "[", "]")
+                .add("glyphs=" + Arrays.toString(glyphs))
+                .toString();
     }
 }

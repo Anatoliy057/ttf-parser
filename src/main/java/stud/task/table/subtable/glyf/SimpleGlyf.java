@@ -1,29 +1,31 @@
-package stud.task.table.domain;
+package stud.task.table.subtable.glyf;
 
 import org.apache.log4j.Logger;
 import stud.task.exception.StreamOutOfFileException;
 import stud.task.exception.TTFTableFormatException;
+import stud.task.model.Contour;
+import stud.task.model.Glyph;
+import stud.task.model.GlyphPoint;
 import stud.task.types.Int16;
 import stud.task.types.UInt16;
 import stud.task.types.UInt8;
 import stud.task.util.TTFInputStream;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
 
 import static org.apache.log4j.Level.ERROR;
 import static stud.task.util.ConvertPrimitives.*;
 
-public class SimpleGlyph implements Glyph {
+public class SimpleGlyf extends SubTableGlyf {
 
-    private static final Logger LOGGER = Logger.getLogger(SimpleGlyph.class);
+    private static final Logger LOGGER = Logger.getLogger(SimpleGlyf.class);
 
-    private long length;
+    private static final int X_SHORT_VECTOR = 1;
+    private static final int Y_SHORT_VECTOR = 2;
+    private static final int X_IS_SAME_OR_POSITIVE_X_SHORT_VECTOR = 4;
+    private static final int Y_IS_SAME_OR_POSITIVE_Y_SHORT_VECTOR = 5;
 
-    private Int16 numberOfContours;
     private Int16 xMin;
     private Int16 yMin;
     private Int16 xMax;
@@ -37,11 +39,8 @@ public class SimpleGlyph implements Glyph {
 
     private UInt16 numberOfPoints;
 
-    public SimpleGlyph(long length, Int16 numberOfContours) throws TTFTableFormatException {
-        if (numberOfContours.shortValue() < 0)
-            throw new TTFTableFormatException("Simple glyph must have positive numberOfContours: actually " + numberOfContours);
-        this.length = length;
-        this.numberOfContours = numberOfContours;
+    public SimpleGlyf(long length, Int16 numberOfContours) throws TTFTableFormatException {
+        super(length, numberOfContours);
     }
 
     @Override
@@ -74,18 +73,14 @@ public class SimpleGlyph implements Glyph {
                     i += repeat.unsigned();
                 }
             }
-            onCurvePoint = new LinkedList<>();
+            onCurvePoint = new ArrayList<>();
             flags.forEach(f -> onCurvePoint.add(f[0]));
 
-            xCoordinates = readCoordinates(in, flags, 1, 4);
-            yCoordinates = readCoordinates(in, flags, 2, 5);
+            xCoordinates = readCoordinates(in, flags, X_SHORT_VECTOR, X_IS_SAME_OR_POSITIVE_X_SHORT_VECTOR);
+            yCoordinates = readCoordinates(in, flags, Y_SHORT_VECTOR, Y_IS_SAME_OR_POSITIVE_Y_SHORT_VECTOR);
 
             long actuallySize = start - in.available();
-            if (length < actuallySize)
-                throw new TTFTableFormatException("SimpleGlyph size does not match expected", actuallySize, length);
-            else {
-                in.skip(length - actuallySize);
-            }
+            in.skip(checkSize(actuallySize));
         } catch (StreamOutOfFileException e) {
             LOGGER.log(ERROR, e);
         }
@@ -100,24 +95,24 @@ public class SimpleGlyph implements Glyph {
     }
 
     private List<Int16> readCoordinates(TTFInputStream in, List<Boolean[]> flags, final int SHORT_VECTOR, final int IS_SAME_OR_POSITIVE_SHORT_VECTOR) throws IOException, StreamOutOfFileException {
-        List<Int16> coords = new LinkedList<>();
-        Int16 coord16 = new Int16((short) 0);
-        UInt8 coord8;
+        List<Int16> coords = new ArrayList<>();
+        Int16 crd16 = new Int16((short) 0);
+        UInt8 crd8;
         for (Boolean[] flag:
                 flags) {
             if (flag[SHORT_VECTOR]) {
-                coord8 = in.readUInt8();
+                crd8 = in.readUInt8();
                 if (flag[IS_SAME_OR_POSITIVE_SHORT_VECTOR]) {
-                    coord16 = new Int16((short) (coord16.shortValue() + coord8.unsigned()));
+                    crd16 = new Int16((short) (crd16.shortValue() + crd8.unsigned()));
                 } else {
-                    coord16 = new Int16((short) (coord16.shortValue() + coord8.unsigned() * -1));
+                    crd16 = new Int16((short) (crd16.shortValue() + crd8.unsigned() * -1));
                 }
             } else {
                 if (!flag[IS_SAME_OR_POSITIVE_SHORT_VECTOR]) {
-                    coord16 = new Int16((short) (coord16.shortValue() + in.readInt16().shortValue()));
+                    crd16 = new Int16((short) (crd16.shortValue() + in.readInt16().shortValue()));
                 }
             }
-            coords.add(coord16);
+            coords.add(crd16);
         }
         return coords;
     }
@@ -172,7 +167,7 @@ public class SimpleGlyph implements Glyph {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", SimpleGlyph.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", SimpleGlyf.class.getSimpleName() + "[", "]")
                 .add("numberOfContours=" + numberOfContours)
                 .add("xMin=" + xMin)
                 .add("yMin=" + yMin)
@@ -186,5 +181,37 @@ public class SimpleGlyph implements Glyph {
                 .add("yCoordinates=" + yCoordinates)
                 .add("numberOfPoints=" + numberOfPoints)
                 .toString();
+    }
+
+    @Override
+    public Glyph getGlyph() {
+        List<Contour> contours = new LinkedList<>();
+        List<GlyphPoint> points = new LinkedList<>();
+
+        Iterator<UInt16> it = Arrays.asList(endPtsOfContours).iterator();
+        UInt16 end = it.next();
+        for (int i = 0; i < numberOfPoints.unsigned() + 1; i++) {
+            if (end.unsigned() - i > 0) {
+                points.add(new GlyphPoint(
+                        xCoordinates.get(i).intValue(),
+                        yCoordinates.get(i).intValue(),
+                        !onCurvePoint.get(i))
+                );
+            } else {
+                Contour contour = new Contour(points, false);
+                contours.add(contour);
+                points = new LinkedList<>();
+                if (it.hasNext())
+                    end = it.next();
+                else break;
+            }
+        }
+        return new Glyph(
+                xMin.intValue(),
+                yMin.intValue(),
+                xMax.intValue(),
+                yMax.intValue(),
+                contours
+        );
     }
 }
