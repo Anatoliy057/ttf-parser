@@ -2,8 +2,10 @@ package stud.task.table.required;
 
 import org.apache.log4j.Logger;
 import stud.task.encoding.Encoding;
-import stud.task.exception.TTFTableFormatException;
-import stud.task.exception.StreamOutOfFileException;
+import stud.task.table.TTFTableFormatException;
+import stud.task.util.StreamOutOfFileException;
+import stud.task.model.Font;
+import stud.task.table.SetUpTable;
 import stud.task.table.domain.HeadTable;
 import stud.task.table.MainTable;
 import stud.task.table.subtable.cmap.SegMap;
@@ -16,7 +18,7 @@ import java.util.StringJoiner;
 
 import static org.apache.log4j.Level.ERROR;
 
-public class CMap extends MainTable {
+public class CMap extends MainTable implements SetUpTable {
 
     private static final Logger LOGGER = Logger.getLogger(CMap.class);
     public static final Tag TAG = new Tag(0x636D6170);
@@ -63,6 +65,11 @@ public class CMap extends MainTable {
 
     public Encoding getEncoding() {
         return encoding;
+    }
+
+    @Override
+    public void setUp(Font font) {
+        font.setEncoding(encoding);
     }
 
     @Override

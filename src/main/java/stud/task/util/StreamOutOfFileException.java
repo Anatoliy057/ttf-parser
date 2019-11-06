@@ -1,4 +1,4 @@
-package stud.task.exception;
+package stud.task.util;
 
 public class StreamOutOfFileException extends Exception {
     public StreamOutOfFileException() {

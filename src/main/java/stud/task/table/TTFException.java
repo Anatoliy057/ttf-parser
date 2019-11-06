@@ -1,4 +1,4 @@
-package stud.task.exception;
+package stud.task.table;
 
 public class TTFException extends Exception {
 

@@ -1,5 +1,6 @@
-package stud.task.exception;
+package stud.task.table;
 
+import stud.task.table.TTFException;
 import stud.task.types.Tag;
 
 public class RequiredTableNotFoundException extends TTFException {

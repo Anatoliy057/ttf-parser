@@ -1,4 +1,4 @@
-package stud.task.exception;
+package stud.task.types;
 
 public class NumberOutOfRangeException extends Exception {
 

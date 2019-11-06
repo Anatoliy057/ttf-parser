@@ -1,7 +1,5 @@
 package stud.task.types;
 
-import stud.task.exception.SizeMismatchException;
-
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;

@@ -2,7 +2,6 @@ package stud.task.util;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import stud.task.exception.StreamOutOfFileException;
 import stud.task.types.*;
 
 import java.io.File;

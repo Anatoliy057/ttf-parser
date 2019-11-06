@@ -1,4 +1,6 @@
-package stud.task.exception;
+package stud.task.table;
+
+import stud.task.table.TTFException;
 
 public class TTFTableFormatException extends TTFException {
 

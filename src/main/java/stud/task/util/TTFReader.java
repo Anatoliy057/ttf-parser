@@ -1,7 +1,6 @@
 package stud.task.util;
-import stud.task.exception.NumberOutOfRangeException;
-import stud.task.exception.SizeMismatchException;
-import stud.task.exception.StreamOutOfFileException;
+import stud.task.types.NumberOutOfRangeException;
+import stud.task.types.SizeMismatchException;
 import stud.task.types.*;
 
 import java.io.*;

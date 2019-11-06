@@ -1,10 +1,12 @@
 package stud.task.table.required;
 
 import org.apache.log4j.Logger;
-import stud.task.exception.StreamOutOfFileException;
-import stud.task.exception.TTFTableFormatException;
+import stud.task.util.StreamOutOfFileException;
+import stud.task.table.TTFTableFormatException;
+import stud.task.model.Font;
 import stud.task.model.Glyph;
 import stud.task.table.MainTable;
+import stud.task.table.SetUpTable;
 import stud.task.table.subtable.glyf.SubTableGlyf;
 import stud.task.table.domain.HeadTable;
 import stud.task.table.subtable.glyf.SimpleGlyf;
@@ -18,7 +20,7 @@ import java.util.StringJoiner;
 
 import static org.apache.log4j.Level.ERROR;
 
-public class Glyf extends MainTable {
+public class Glyf extends MainTable implements SetUpTable {
 
     private static final Logger LOGGER = Logger.getLogger(Glyf.class);
     public static final Tag TAG = new Tag(0x676C7966);
@@ -56,6 +58,11 @@ public class Glyf extends MainTable {
 
     public Glyph[] getGlyphs() {
         return glyphs;
+    }
+
+    @Override
+    public void setUp(Font font) {
+        font.setGlyphs(glyphs);
     }
 
     @Override

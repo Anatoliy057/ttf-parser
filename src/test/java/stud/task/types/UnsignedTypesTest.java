@@ -1,7 +1,6 @@
 package stud.task.types;
 
 import org.junit.jupiter.api.Test;
-import stud.task.exception.NumberOutOfRangeException;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,13 +1,9 @@
 package stud.task.table.subtable.glyf;
 
-import stud.task.exception.TTFTableFormatException;
-import stud.task.model.Contour;
+import stud.task.table.TTFTableFormatException;
 import stud.task.model.Glyph;
 import stud.task.table.Table;
-import stud.task.table.required.Glyf;
 import stud.task.types.Int16;
-
-import java.util.List;
 
 public abstract class SubTableGlyf implements Table {
 

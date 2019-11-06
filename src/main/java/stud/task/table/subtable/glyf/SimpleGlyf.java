@@ -1,8 +1,8 @@
 package stud.task.table.subtable.glyf;
 
 import org.apache.log4j.Logger;
-import stud.task.exception.StreamOutOfFileException;
-import stud.task.exception.TTFTableFormatException;
+import stud.task.util.StreamOutOfFileException;
+import stud.task.table.TTFTableFormatException;
 import stud.task.model.Contour;
 import stud.task.model.Glyph;
 import stud.task.model.GlyphPoint;

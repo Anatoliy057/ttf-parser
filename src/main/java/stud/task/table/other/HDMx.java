@@ -1,8 +1,8 @@
 package stud.task.table.other;
 
 import org.apache.log4j.Logger;
-import stud.task.exception.StreamOutOfFileException;
-import stud.task.exception.TTFTableFormatException;
+import stud.task.util.StreamOutOfFileException;
+import stud.task.table.TTFTableFormatException;
 import stud.task.table.MainTable;
 import stud.task.table.Table;
 import stud.task.table.domain.HeadTable;

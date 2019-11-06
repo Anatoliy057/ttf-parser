@@ -1,6 +1,5 @@
 package stud.task.util;
 
-import stud.task.exception.StreamOutOfFileException;
 import stud.task.types.*;
 
 import java.io.IOException;

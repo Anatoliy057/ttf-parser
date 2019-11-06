@@ -1,8 +1,10 @@
 package stud.task.table.required;
 
 import org.apache.log4j.Logger;
-import stud.task.exception.TTFTableFormatException;
-import stud.task.exception.StreamOutOfFileException;
+import stud.task.model.Font;
+import stud.task.table.SetUpTable;
+import stud.task.table.TTFTableFormatException;
+import stud.task.util.StreamOutOfFileException;
 import stud.task.table.domain.HeadTable;
 import stud.task.table.MainTable;
 import stud.task.types.*;
@@ -14,7 +16,7 @@ import java.util.StringJoiner;
 
 import static org.apache.log4j.Level.ERROR;
 
-public class HHea extends MainTable {
+public class HHea extends MainTable implements SetUpTable {
 
     private static final Logger LOGGER = Logger.getLogger(HHea.class);
     public static final Tag TAG = new Tag(0x68686561);
@@ -120,6 +122,11 @@ public class HHea extends MainTable {
 
     public UInt16 getNumberOfHMetrics() {
         return numberOfHMetrics;
+    }
+
+    @Override
+    public void setUp(Font font) {
+        font.setMaxAdvance(advanceWidthMax.unsigned());
     }
 
     @Override
