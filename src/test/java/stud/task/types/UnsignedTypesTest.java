@@ -9,7 +9,7 @@ class UnsignedTypesTest {
 
     @Test
     void expectUInt8ThrowException() {
-        byte negative = -1;
+        int negative = -1;
         long exceeding = UInt8.MAX_VALUE+1;
         assertThrows(
                 NumberOutOfRangeException.class,
@@ -23,7 +23,7 @@ class UnsignedTypesTest {
 
     @Test
     void expectUInt16ThrowException() {
-        byte negative = -1;
+        int negative = -1;
         long exceeding = UInt16.MAX_VALUE+1;
         assertThrows(
                 NumberOutOfRangeException.class,
@@ -37,7 +37,7 @@ class UnsignedTypesTest {
 
     @Test
     void expectUInt24ThrowException() {
-        byte negative = -1;
+        int negative = -1;
         long exceeding = UInt24.MAX_VALUE+1;
         assertThrows(
                 NumberOutOfRangeException.class,
@@ -65,7 +65,7 @@ class UnsignedTypesTest {
 
     @Test
     void expectUFWordThrowException() {
-        byte negative = -1;
+        int negative = -1;
         long exceeding = UFWord.MAX_VALUE+1;
         assertThrows(
                 NumberOutOfRangeException.class,
@@ -79,7 +79,7 @@ class UnsignedTypesTest {
 
     @Test
     void expectOffSet16ThrowException() {
-        byte negative = -1;
+        int negative = -1;
         long exceeding = OffSet16.MAX_VALUE+1;
         assertThrows(
                 NumberOutOfRangeException.class,
@@ -93,7 +93,7 @@ class UnsignedTypesTest {
 
     @Test
     void expectOffSet32ThrowException() {
-        byte negative = -1;
+        long negative = -1;
         long exceeding = OffSet32.MAX_VALUE+1;
         assertThrows(
                 NumberOutOfRangeException.class,

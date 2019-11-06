@@ -17,6 +17,12 @@ public final class UInt8 extends Number implements Comparable<UInt8> {
         this.value = value;
     }
 
+    public UInt8(int value) throws NumberOutOfRangeException {
+        if (value > MAX_VALUE || value < MIN_VALUE)
+            throw new NumberOutOfRangeException(value, MAX_VALUE, MIN_VALUE);
+        this.value = (short) value;
+    }
+
     public UInt8(byte value) {
         this.value = (short) (value & 0xFF);
     }
