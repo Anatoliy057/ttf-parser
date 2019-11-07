@@ -2,11 +2,11 @@ package stud.task.table.subtable.cmap;
 
 import stud.task.encoding.Encoding;
 import stud.task.table.TTFTableFormatException;
-import stud.task.table.Table;
+import stud.task.table.ReadableTable;
 import stud.task.table.required.CMap;
 import stud.task.types.UInt16;
 
-public abstract class SubTableCMap implements Table {
+public abstract class SubTableCMap implements ReadableTable {
 
     protected CMap.EncodingRecord record;
 

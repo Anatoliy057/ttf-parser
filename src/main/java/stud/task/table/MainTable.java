@@ -3,7 +3,7 @@ package stud.task.table;
 import stud.task.table.domain.HeadTable;
 import stud.task.types.Tag;
 
-public abstract class MainTable implements Table {
+public abstract class MainTable implements ReadableTable {
 
     public final long length;
 

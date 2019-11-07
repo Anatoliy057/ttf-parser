@@ -80,7 +80,10 @@ public class SimpleGlyf extends SubTableGlyf {
             yCoordinates = readCoordinates(in, flags, Y_SHORT_VECTOR, Y_IS_SAME_OR_POSITIVE_Y_SHORT_VECTOR);
 
             long actuallySize = start - in.available();
-            in.skip(checkSize(actuallySize));
+            int residue = (int) checkSize(actuallySize);
+            for (int j = 0; j < residue; j++) {
+                in.readUInt8();
+            }
         } catch (StreamOutOfFileException e) {
             LOGGER.log(ERROR, e);
         }

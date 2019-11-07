@@ -1,6 +1,7 @@
 package stud.task.model;
 
 import java.util.List;
+import java.util.StringJoiner;
 
 public class Glyph {
     private int xMin, yMin, xMax, yMax;
@@ -72,5 +73,18 @@ public class Glyph {
 
     public void setContourList(List<Contour> contourList) {
         this.contourList = contourList;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Glyph.class.getSimpleName() + "[", "]")
+                .add("xMin=" + xMin)
+                .add("yMin=" + yMin)
+                .add("xMax=" + xMax)
+                .add("yMax=" + yMax)
+                .add("leftSideBearing=" + leftSideBearing)
+                .add("rightSideBearing=" + rightSideBearing)
+                .add("contourList=" + contourList)
+                .toString();
     }
 }

@@ -1,7 +1,9 @@
 package stud.task.table.required;
 
 import org.apache.log4j.Logger;
+import stud.task.table.TTFTable;
 import stud.task.table.TTFTableFormatException;
+import stud.task.table.TypeTTFTable;
 import stud.task.util.StreamOutOfFileException;
 import stud.task.table.MainTable;
 import stud.task.table.domain.HeadTable;
@@ -15,6 +17,7 @@ import java.util.function.Function;
 
 import static org.apache.log4j.Level.ERROR;
 
+@TTFTable(value = TypeTTFTable.LOCA, dependencies = {TypeTTFTable.HEAD, TypeTTFTable.MAXP})
 public class Loca extends MainTable {
 
     private static final Logger LOGGER = Logger.getLogger(Loca.class);

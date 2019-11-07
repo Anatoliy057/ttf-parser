@@ -22,7 +22,8 @@ public class TTFReader implements TTFInputStream {
 
     public TTFReader(File file) throws FileNotFoundException {
         in = new BufferedInputStream(
-                new FileInputStream(file)
+                new FileInputStream(file),
+                (int) file.length()
         );
     }
 

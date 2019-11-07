@@ -1,13 +1,11 @@
 package stud.task.table.required;
 
 import org.apache.log4j.Logger;
-import stud.task.table.TTFTableFormatException;
+import stud.task.table.*;
 import stud.task.util.StreamOutOfFileException;
 import stud.task.model.Font;
 import stud.task.model.Glyph;
-import stud.task.table.SetUpTable;
 import stud.task.table.domain.HeadTable;
-import stud.task.table.MainTable;
 import stud.task.types.Int16;
 import stud.task.types.Tag;
 import stud.task.types.UInt16;
@@ -19,10 +17,12 @@ import java.util.StringJoiner;
 
 import static org.apache.log4j.Level.ERROR;
 
+@TTFTable(value = TypeTTFTable.HMTX, dependencies = {TypeTTFTable.HHEA, TypeTTFTable.MAXP})
 public class HMtx extends MainTable implements SetUpTable {
 
     private static final Logger LOGGER = Logger.getLogger(HMtx.class);
     public static final Tag TAG = new Tag(0x686D7478);
+    private static final int PRIORITY = 1;
 
     private LongHorMetric[] longHorMetric;
     private Int16[] leftSideBearings;
@@ -58,15 +58,22 @@ public class HMtx extends MainTable implements SetUpTable {
     }
 
     @Override
+    public int priority() {
+        return PRIORITY;
+    }
+
+    @Override
     public void setUp(Font font) {
         Glyph[] glyphs = font.getGlyphs();
         int index = 0;
         for(; index < longHorMetric.length; index++) {
+            if (glyphs[index] == null) continue;
             glyphs[index].setLeftSideBearing(longHorMetric[index].getLsb().intValue());
             glyphs[index].setRightSideBearing(longHorMetric[index].advanceWidth.unsigned());
         }
         for (Int16 leftSideBearing :
                 leftSideBearings) {
+            if (glyphs[index] == null) continue;
             glyphs[index].setLeftSideBearing(leftSideBearing.intValue());
             glyphs[index].setRightSideBearing(glyphs[index].getXMax());
             index++;

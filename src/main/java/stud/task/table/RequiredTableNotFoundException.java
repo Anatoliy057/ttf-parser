@@ -13,6 +13,6 @@ public class RequiredTableNotFoundException extends TTFException {
     }
 
     public RequiredTableNotFoundException(Tag tag) {
-        super(String.format("MainTable %s not found", tag));
+        super(String.format("Required table %s not found", tag));
     }
 }

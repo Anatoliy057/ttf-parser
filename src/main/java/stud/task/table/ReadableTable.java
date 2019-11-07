@@ -4,7 +4,7 @@ import stud.task.util.TTFInputStream;
 
 import java.io.IOException;
 
-public interface Table {
+public interface ReadableTable {
 
     void read(TTFInputStream in) throws IOException, TTFTableFormatException;
 }

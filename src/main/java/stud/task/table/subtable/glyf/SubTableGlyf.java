@@ -2,10 +2,10 @@ package stud.task.table.subtable.glyf;
 
 import stud.task.table.TTFTableFormatException;
 import stud.task.model.Glyph;
-import stud.task.table.Table;
+import stud.task.table.ReadableTable;
 import stud.task.types.Int16;
 
-public abstract class SubTableGlyf implements Table {
+public abstract class SubTableGlyf implements ReadableTable {
 
     private long length;
     protected Int16 numberOfContours;

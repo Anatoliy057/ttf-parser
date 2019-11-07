@@ -1,7 +1,9 @@
 package stud.task.table.required;
 
 import org.apache.log4j.Logger;
+import stud.task.table.TTFTable;
 import stud.task.table.TTFTableFormatException;
+import stud.task.table.TypeTTFTable;
 import stud.task.util.StreamOutOfFileException;
 import stud.task.table.MainTable;
 import stud.task.table.domain.HeadTable;
@@ -15,6 +17,7 @@ import java.util.StringJoiner;
 
 import static org.apache.log4j.Level.ERROR;
 
+@TTFTable(TypeTTFTable.MAXP)
 public class MaxP extends MainTable {
 
     private static final Logger LOGGER = Logger.getLogger(MaxP.class);

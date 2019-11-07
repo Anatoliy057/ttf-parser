@@ -2,11 +2,9 @@ package stud.task.table.required;
 
 import org.apache.log4j.Logger;
 import stud.task.model.Font;
-import stud.task.table.SetUpTable;
-import stud.task.table.TTFTableFormatException;
+import stud.task.table.*;
 import stud.task.util.StreamOutOfFileException;
 import stud.task.table.domain.HeadTable;
-import stud.task.table.MainTable;
 import stud.task.types.*;
 import stud.task.util.TTFInputStream;
 
@@ -16,10 +14,12 @@ import java.util.StringJoiner;
 
 import static org.apache.log4j.Level.ERROR;
 
+@TTFTable(TypeTTFTable.HHEA)
 public class HHea extends MainTable implements SetUpTable {
 
     private static final Logger LOGGER = Logger.getLogger(HHea.class);
     public static final Tag TAG = new Tag(0x68686561);
+    private static final int PRIORITY = 0;
 
     private UInt16 majorVersion;
     private UInt16 minorVersion;
@@ -122,6 +122,11 @@ public class HHea extends MainTable implements SetUpTable {
 
     public UInt16 getNumberOfHMetrics() {
         return numberOfHMetrics;
+    }
+
+    @Override
+    public int priority() {
+        return PRIORITY;
     }
 
     @Override

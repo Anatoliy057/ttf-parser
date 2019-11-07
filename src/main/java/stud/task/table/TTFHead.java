@@ -11,11 +11,12 @@ import stud.task.util.TTFInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringJoiner;
 
 import static org.apache.log4j.Level.ERROR;
 
-public class TTFHead implements Table {
+public class TTFHead implements ReadableTable {
 
     private static final Logger LOGGER = Logger.getLogger(TTFHead.class);
     private final int SIZE_HEAD_TTF = 12;
@@ -30,12 +31,16 @@ public class TTFHead implements Table {
 
     public void read(TTFInputStream in) throws IOException, TTFTableFormatException {
         try {
+            in.mark(SIZE_HEAD_TTF);
             long start = in.available();
             version = in.readUInt32();
             countTable = in.readUInt16();
             rangeSearch = in.readUInt16();
             enterSelect = in.readUInt16();
             shiftRange = in.readUInt16();
+            in.reset();
+            in.mark(countTable.unsigned() * SIZE_HEAD_TABLE);
+            in.skip(SIZE_HEAD_TTF);
             map = new HashMap<>();
             for (int i = 0; i < countTable.unsigned(); i++) {
                 HeadTable ht = new HeadTable(
@@ -50,6 +55,7 @@ public class TTFHead implements Table {
             long expectSize =  SIZE_HEAD_TABLE*countTable.unsigned() + SIZE_HEAD_TTF;
             if (actuallySize != expectSize)
                 throw new TTFTableFormatException(String.format("%s size does not match expected", getClass().getSimpleName()), actuallySize, expectSize);
+            in.reset();
         } catch (StreamOutOfFileException e) {
             LOGGER.log(ERROR, e);
         }
@@ -77,6 +83,10 @@ public class TTFHead implements Table {
 
     public HeadTable getHeadTable(Tag tag) {
         return map.get(tag);
+    }
+
+    public Set<Tag> getTags() {
+        return map.keySet();
     }
 
     @Override

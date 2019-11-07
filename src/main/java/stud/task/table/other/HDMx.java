@@ -1,10 +1,9 @@
 package stud.task.table.other;
 
 import org.apache.log4j.Logger;
+import stud.task.table.*;
+import stud.task.table.required.MaxP;
 import stud.task.util.StreamOutOfFileException;
-import stud.task.table.TTFTableFormatException;
-import stud.task.table.MainTable;
-import stud.task.table.Table;
 import stud.task.table.domain.HeadTable;
 import stud.task.types.*;
 import stud.task.util.TTFInputStream;
@@ -15,6 +14,7 @@ import java.util.StringJoiner;
 
 import static org.apache.log4j.Level.ERROR;
 
+@TTFTable(value = TypeTTFTable.HDMX, dependencies = TypeTTFTable.MAXP)
 public class HDMx extends MainTable {
 
     private static final Logger LOGGER = Logger.getLogger(HDMx.class);
@@ -27,9 +27,9 @@ public class HDMx extends MainTable {
     private Int32 sizeDeviceRecord;
     private DeviceRecord[] deviceRecords;
 
-    public HDMx(HeadTable headTable, UInt16 numGlyphs) {
+    public HDMx(HeadTable headTable, MaxP maxp) {
         super(headTable);
-        this.numGlyphs = numGlyphs;
+        this.numGlyphs = maxp.getNumGlyphs();
     }
 
     @Override
@@ -98,7 +98,7 @@ public class HDMx extends MainTable {
                 .toString();
     }
 
-    public class DeviceRecord implements Table {
+    public class DeviceRecord implements ReadableTable {
 
         private UInt8 pixelSize;
         private UInt8 maxWidth;
