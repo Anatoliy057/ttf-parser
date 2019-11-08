@@ -1,10 +1,8 @@
 package stud.task.table.required;
 
 import org.apache.log4j.Logger;
-import stud.task.table.TTFTable;
-import stud.task.table.TTFTableFormatException;
-import stud.task.table.MainTable;
-import stud.task.table.TypeTTFTable;
+import stud.task.model.FontInfo;
+import stud.task.table.*;
 import stud.task.table.domain.HeadTable;
 import stud.task.types.*;
 import stud.task.util.StreamOutOfFileException;
@@ -18,7 +16,7 @@ import static org.apache.log4j.Level.ERROR;
 import static stud.task.util.ConvertPrimitives.*;
 
 @TTFTable(TypeTTFTable.HEAD)
-public class Head extends MainTable {
+public class Head extends MainTable implements SetUpTable {
 
     private static final Logger LOGGER = Logger.getLogger(Head.class);
     public static final Tag TAG = new Tag(0x68656164);
@@ -182,6 +180,19 @@ public class Head extends MainTable {
 
     public Int16 getGlyphDataFormat() {
         return glyphDataFormat;
+    }
+
+    @Override
+    public int priority() {
+        return 0;
+    }
+
+    @Override
+    public void setUp(FontInfo fi) {
+        fi.setxMin(xMin.intValue());
+        fi.setyMin(yMin.intValue());
+        fi.setxMax(xMax.intValue());
+        fi.setyMax(yMax.intValue());
     }
 
     @Override

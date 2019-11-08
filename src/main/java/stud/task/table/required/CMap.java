@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import stud.task.encoding.Encoding;
 import stud.task.table.*;
 import stud.task.util.StreamOutOfFileException;
-import stud.task.model.Font;
+import stud.task.model.FontInfo;
 import stud.task.table.domain.HeadTable;
 import stud.task.table.subtable.cmap.SegMap;
 import stud.task.types.*;
@@ -73,8 +73,8 @@ public class CMap extends MainTable implements SetUpTable {
     }
 
     @Override
-    public void setUp(Font font) {
-        font.setEncoding(encoding);
+    public void setUp(FontInfo fontInfo) {
+        fontInfo.setEncoding(encoding);
     }
 
     @Override

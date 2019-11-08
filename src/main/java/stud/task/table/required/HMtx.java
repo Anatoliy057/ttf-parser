@@ -3,7 +3,7 @@ package stud.task.table.required;
 import org.apache.log4j.Logger;
 import stud.task.table.*;
 import stud.task.util.StreamOutOfFileException;
-import stud.task.model.Font;
+import stud.task.model.FontInfo;
 import stud.task.model.Glyph;
 import stud.task.table.domain.HeadTable;
 import stud.task.types.Int16;
@@ -63,8 +63,8 @@ public class HMtx extends MainTable implements SetUpTable {
     }
 
     @Override
-    public void setUp(Font font) {
-        Glyph[] glyphs = font.getGlyphs();
+    public void setUp(FontInfo fontInfo) {
+        Glyph[] glyphs = fontInfo.getGlyphs();
         int index = 0;
         for(; index < longHorMetric.length; index++) {
             if (glyphs[index] == null) continue;

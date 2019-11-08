@@ -16,6 +16,16 @@ public class Glyph {
         this.contourList = contourList;
     }
 
+    public Glyph(int xMin, int yMin, int xMax, int yMax, int leftSideBearing, int rightSideBearing, List<Contour> contourList) {
+        this.xMin = xMin;
+        this.yMin = yMin;
+        this.xMax = xMax;
+        this.yMax = yMax;
+        this.leftSideBearing = leftSideBearing;
+        this.rightSideBearing = rightSideBearing;
+        this.contourList = contourList;
+    }
+
     public Glyph() {
     }
 

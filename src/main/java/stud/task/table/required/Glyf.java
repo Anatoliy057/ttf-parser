@@ -3,7 +3,7 @@ package stud.task.table.required;
 import org.apache.log4j.Logger;
 import stud.task.table.*;
 import stud.task.util.StreamOutOfFileException;
-import stud.task.model.Font;
+import stud.task.model.FontInfo;
 import stud.task.model.Glyph;
 import stud.task.table.subtable.glyf.SubTableGlyf;
 import stud.task.table.domain.HeadTable;
@@ -66,8 +66,8 @@ public class Glyf extends MainTable implements SetUpTable {
     }
 
     @Override
-    public void setUp(Font font) {
-        font.setGlyphs(glyphs);
+    public void setUp(FontInfo fontInfo) {
+        fontInfo.setGlyphs(glyphs);
     }
 
     @Override

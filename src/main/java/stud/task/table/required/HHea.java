@@ -1,7 +1,7 @@
 package stud.task.table.required;
 
 import org.apache.log4j.Logger;
-import stud.task.model.Font;
+import stud.task.model.FontInfo;
 import stud.task.table.*;
 import stud.task.util.StreamOutOfFileException;
 import stud.task.table.domain.HeadTable;
@@ -130,8 +130,8 @@ public class HHea extends MainTable implements SetUpTable {
     }
 
     @Override
-    public void setUp(Font font) {
-        font.setMaxAdvance(advanceWidthMax.unsigned());
+    public void setUp(FontInfo fontInfo) {
+        fontInfo.setMaxAdvance(advanceWidthMax.unsigned());
     }
 
     @Override

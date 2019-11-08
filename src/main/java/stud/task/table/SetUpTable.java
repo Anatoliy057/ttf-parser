@@ -1,11 +1,11 @@
 package stud.task.table;
 
-import stud.task.model.Font;
+import stud.task.model.FontInfo;
 
 public interface SetUpTable {
 
     int priority();
 
-    void setUp(Font font);
+    void setUp(FontInfo fontInfo);
 
 }

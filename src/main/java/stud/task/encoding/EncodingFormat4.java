@@ -48,7 +48,7 @@ public class EncodingFormat4 implements Encoding {
         int index = 0;
         for (int i = 0; i < segments.length; i++) {
             int comp = segments[i].isInside(value.unsigned());
-            if (comp < -1) return 0;
+            if (comp < -1) return -1;
             if (comp == 0) {
                 index = i;
                 break;
@@ -56,7 +56,7 @@ public class EncodingFormat4 implements Encoding {
         }
         Integer temp;
         if ((temp = rangeOffset.get(index)) == null) {
-            return (value.unsigned() + idDelta[index].shortValue()) % UInt16.MAX_VALUE;
+            return (value.unsigned() + idDelta[index].shortValue()) % UInt16.MAX_VALUE ;
         } else {
             return glyphArray[
                     value.unsigned() - segments[index].start + temp

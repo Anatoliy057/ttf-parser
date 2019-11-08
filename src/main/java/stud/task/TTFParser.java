@@ -2,11 +2,14 @@ package stud.task;
 
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
+import org.reflections.Reflections;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 import stud.task.model.Font;
+import stud.task.model.FontInfo;
 import stud.task.table.*;
 import stud.task.table.domain.HeadTable;
 import stud.task.types.Tag;
-import stud.task.util.ClassFinder;
 import stud.task.util.TTFInputStream;
 import stud.task.util.TTFReader;
 
@@ -20,35 +23,43 @@ public class TTFParser {
 
     private static final Logger LOGGER = Logger.getLogger(TTFParser.class);
 
-    private final String PATH_TO_TABLES = "stud.task.table";
-    private final Class<TTFTable> CLASS_ANNOTATION = TTFTable.class;
+    private static final String PATH_TO_TABLES = "stud/task.table";
+    private static final Class<TTFTable> CLASS_ANNOTATION = TTFTable.class;
 
-    private TTFHead ttfHead;
+    private static final Map<Tag, Pair<TTFTable, Class<? extends ReadableTable>>> clazzTables;
 
-    private Map<Tag, ReadableTable> tables;
-    private List<SetUpTable> setUpTables;
-    private Map<Tag, Pair<TTFTable, Class<? extends ReadableTable>>> clazzTables;
-
-    public TTFParser() throws TTFException {
-        List<Class<?>> classes = ClassFinder.find(PATH_TO_TABLES);
+    static {
         clazzTables = new HashMap<>();
-        setUpTables = new LinkedList<>();
-        ttfHead = new TTFHead();
+        Reflections reflections = new Reflections(
+                new ConfigurationBuilder()
+                        .setUrls(ClasspathHelper.forPackage(PATH_TO_TABLES))
+        );
+        Set<Class<?>> classes = reflections.getTypesAnnotatedWith(TTFTable.class);
         for (Class<?> c :
                 classes) {
             TTFTable a = c.getAnnotation(CLASS_ANNOTATION);
-            if (a != null) {
-                if (ReadableTable.class.isAssignableFrom(c)) {
-                    @SuppressWarnings("unchecked")
-                    Class<? extends ReadableTable> ct = (Class<? extends ReadableTable>) c;
-                    Pair<TTFTable, Class<? extends ReadableTable>> error;
-                    if((error = clazzTables.put(a.value().TAG, new Pair<>(a, ct))) != null)
-                        throw new TTFException(String.format("Two classes: %s, %s is declaration as %s", ct, error.getValue(), a.value()));
-                } else {
-                    throw new TTFException(String.format("Class %s is declaration as %s but do not implementation ReadableTable", c, CLASS_ANNOTATION));
-                }
+            if (ReadableTable.class.isAssignableFrom(c)) {
+                @SuppressWarnings("unchecked")
+                Class<? extends ReadableTable> ct = (Class<? extends ReadableTable>) c;
+                Pair<TTFTable, Class<? extends ReadableTable>> error;
+                if ((error = clazzTables.put(a.value().TAG, new Pair<>(a, ct))) != null)
+                    throw new Error(String.format("Two classes: %s, %s is declaration as %s", ct, error.getValue(), a.value()));
+            } else {
+                throw new Error(String.format("Class %s is declaration as %s but do not implementation ReadableTable", c, CLASS_ANNOTATION));
             }
         }
+        StringJoiner joiner = new StringJoiner(", ", "Loaded tables: [", "]");
+        clazzTables.keySet().forEach(t -> joiner.add(t.toString()));
+        LOGGER.info(joiner.toString());
+    }
+
+    private TTFHead ttfHead;
+    private Map<Tag, ReadableTable> tables;
+    private List<SetUpTable> setUpTables;
+
+    public TTFParser() {
+        setUpTables = new LinkedList<>();
+        ttfHead = new TTFHead();
     }
 
     public void parse(File file) throws IOException, TTFTableFormatException {
@@ -72,13 +83,14 @@ public class TTFParser {
             }
         }
         setUpTables.sort(Comparator.comparingInt(SetUpTable::priority));
+        in.close();
     }
 
-    private void read(TTFInputStream in, Tag tag, boolean requared) throws IOException, TTFException {
+    private void read(TTFInputStream in, Tag tag, boolean required) throws IOException, TTFException {
         Pair<TTFTable, Class<? extends ReadableTable>> p = clazzTables.get(tag);
 
         if (p == null) {
-            if (requared) {
+            if (required) {
                 throw new RequiredTableNotFoundException(tag);
             } else {
                 return;
@@ -146,9 +158,13 @@ public class TTFParser {
     }
 
     public Font createFont() {
-        Font font = new Font();
-        setUpTables.forEach(s -> s.setUp(font));
-        return font;
+        FontInfo fontInfo = new FontInfo();
+        setUpTables.forEach(s -> s.setUp(fontInfo));
+        return new Font(fontInfo);
+    }
+
+    public ReadableTable getTable(Tag tag) {
+        return tables.get(tag);
     }
 
     private TTFInputStream createIN(File file) throws FileNotFoundException {
