@@ -81,7 +81,6 @@ public class SimpleGlyf extends SubTableGlyf {
 
             long actuallySize = start - in.available();
             int residue = (int) checkSize(actuallySize);
-            System.out.println(residue);
             in.skip(residue);
         } catch (StreamOutOfFileException e) {
             LOGGER.log(ERROR, e);
