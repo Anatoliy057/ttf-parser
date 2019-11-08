@@ -81,9 +81,8 @@ public class SimpleGlyf extends SubTableGlyf {
 
             long actuallySize = start - in.available();
             int residue = (int) checkSize(actuallySize);
-            for (int j = 0; j < residue; j++) {
-                in.readUInt8();
-            }
+            System.out.println(residue);
+            in.skip(residue);
         } catch (StreamOutOfFileException e) {
             LOGGER.log(ERROR, e);
         }
@@ -194,7 +193,7 @@ public class SimpleGlyf extends SubTableGlyf {
         Iterator<UInt16> it = Arrays.asList(endPtsOfContours).iterator();
         UInt16 end = it.next();
         for (int i = 0; i < numberOfPoints.unsigned() + 1; i++) {
-            if (end.unsigned() - i > 0) {
+            if (end.unsigned() - i >= 0) {
                 points.add(new GlyphPoint(
                         xCoordinates.get(i).intValue(),
                         yCoordinates.get(i).intValue(),
