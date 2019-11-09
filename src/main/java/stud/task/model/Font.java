@@ -40,6 +40,14 @@ public class Font {
         return yMax;
     }
 
+    public Glyph getEmpty() {
+        return empty;
+    }
+
+    public Glyph getUnsupported() {
+        return unsupported;
+    }
+
     public Glyph getGlyph(char a) {
         int index = encoding.convertToIndexGlyph(toUInt16(a));
         return atGlyph(index);

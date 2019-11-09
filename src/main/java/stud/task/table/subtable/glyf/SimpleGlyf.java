@@ -167,6 +167,47 @@ public class SimpleGlyf extends SubTableGlyf {
     }
 
     @Override
+    public Glyph getGlyph() {
+        List<Contour> contours = new LinkedList<>();
+        List<GlyphPoint> points = new LinkedList<>();
+
+        Iterator<UInt16> it = Arrays.asList(endPtsOfContours).iterator();
+        UInt16 end = it.next();
+        for (int i = 0; i < numberOfPoints.unsigned() + 1; i++) {
+            int comp = end.unsigned() - i;
+            if (comp >= 0) {
+                if (comp == 0) {
+                    points.add(getGlyfPoint(i));
+                    points.add(points.get(0));
+                    contours.add(new Contour(points, true));
+                    points = new LinkedList<>();
+                    if (it.hasNext())
+                        end = it.next();
+                } else {
+                    points.add(getGlyfPoint(i));
+                }
+            } else {
+                LOGGER.error("Index in construct contour is out");
+            }
+        }
+        return new Glyph(
+                xMin.intValue(),
+                yMin.intValue(),
+                xMax.intValue(),
+                yMax.intValue(),
+                contours
+        );
+    }
+
+    private GlyphPoint getGlyfPoint(int index) {
+        return new GlyphPoint(
+                xCoordinates.get(index).intValue(),
+                yCoordinates.get(index).intValue(),
+                !onCurvePoint.get(index)
+        );
+    }
+
+    @Override
     public String toString() {
         return new StringJoiner(", ", SimpleGlyf.class.getSimpleName() + "[", "]")
                 .add("numberOfContours=" + numberOfContours)
@@ -182,37 +223,5 @@ public class SimpleGlyf extends SubTableGlyf {
                 .add("yCoordinates=" + yCoordinates)
                 .add("numberOfPoints=" + numberOfPoints)
                 .toString();
-    }
-
-    @Override
-    public Glyph getGlyph() {
-        List<Contour> contours = new LinkedList<>();
-        List<GlyphPoint> points = new LinkedList<>();
-
-        Iterator<UInt16> it = Arrays.asList(endPtsOfContours).iterator();
-        UInt16 end = it.next();
-        for (int i = 0; i < numberOfPoints.unsigned() + 1; i++) {
-            if (end.unsigned() - i >= 0) {
-                points.add(new GlyphPoint(
-                        xCoordinates.get(i).intValue(),
-                        yCoordinates.get(i).intValue(),
-                        !onCurvePoint.get(i))
-                );
-            } else {
-                Contour contour = new Contour(points, false);
-                contours.add(contour);
-                points = new LinkedList<>();
-                if (it.hasNext())
-                    end = it.next();
-                else break;
-            }
-        }
-        return new Glyph(
-                xMin.intValue(),
-                yMin.intValue(),
-                xMax.intValue(),
-                yMax.intValue(),
-                contours
-        );
     }
 }
