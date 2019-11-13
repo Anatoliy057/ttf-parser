@@ -10,12 +10,14 @@ import java.util.*;
 public class EncodingFormat4 implements Encoding {
 
     private UInt16 format = new UInt16((short) 0x4);
-    private Segment[] segments;
-    private Int16[] idDelta;
-    private UInt16[] glyphArray;
-    private HashMap<Integer, Integer> rangeOffset;
+    private Map<Character, Integer> charToIndex;
 
     public EncodingFormat4(SegMap segMap) {
+        Segment[] segments;
+        Int16[] idDelta;
+        UInt16[] glyphArray;
+        Map<Integer, Integer> rangeOffset;
+
         int countSeg = segMap.getSegCount();
         segments = new Segment[countSeg];
         UInt16[] start =  segMap.getStartCode();
@@ -41,27 +43,37 @@ public class EncodingFormat4 implements Encoding {
             rangeOffset.put(p.getKey(), startGlyphArray);
             startGlyphArray += size;
         }
+        charToIndex = new HashMap<>();
+
+        int iSeg = 0;
+        boolean last = false;
+        for (int i = 0; i < Character.MAX_VALUE; i++) {
+            if (segments[iSeg].isInside(i)) {
+                last = true;
+                charToIndex.put((char) i, calcIndex(i, iSeg, rangeOffset, segments, idDelta, glyphArray));
+            } else if (last) {
+                iSeg++;
+                last = false;
+                i--;
+            }
+        }
+    }
+
+    private int calcIndex(int i, int iSeg, Map<Integer, Integer> offset, Segment[] segments, Int16[] idDelta, UInt16[] glyphArray) {
+        Integer temp;
+        if ((temp = offset.get(iSeg)) == null) {
+            return (i + idDelta[iSeg].shortValue()) % UInt16.MAX_VALUE ;
+        } else {
+            return glyphArray[
+                    i - segments[iSeg].start + temp
+                    ].unsigned() + idDelta[iSeg].intValue();
+        }
     }
 
     @Override
     public int convertToIndexGlyph(UInt16 value) {
-        int index = 0;
-        for (int i = 0; i < segments.length; i++) {
-            int comp = segments[i].isInside(value.unsigned());
-            if (comp < -1) return -1;
-            if (comp == 0) {
-                index = i;
-                break;
-            }
-        }
-        Integer temp;
-        if ((temp = rangeOffset.get(index)) == null) {
-            return (value.unsigned() + idDelta[index].shortValue()) % UInt16.MAX_VALUE ;
-        } else {
-            return glyphArray[
-                    value.unsigned() - segments[index].start + temp
-                    ].unsigned() + idDelta[index].intValue();
-        }
+        Integer temp = charToIndex.get((char) value.unsigned());
+        return temp == null ? -1 : temp;
     }
 
     @Override
@@ -78,14 +90,14 @@ public class EncodingFormat4 implements Encoding {
             this.end = end.intValue();
         }
 
-        public int isInside(int position) {
+        public boolean isInside(int position) {
             int temp = position - start;
-            if (temp <= 0){
-                return temp;
+            if (temp < 0){
+                return false;
             } else {
                 temp = position - end;
-                if (temp <= 0) return 0;
-                else return temp;
+                if (temp <= 0) return true;
+                else return false;
             }
         }
 
