@@ -2,6 +2,7 @@ package stud.task.table.required;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import stud.task.TTFParser;
 import stud.task.service.ResLoader;
 import stud.task.table.TTFHead;
 import stud.task.table.domain.HeadTable;
@@ -23,25 +24,12 @@ class LocaTest {
     void setUp() {
         assertDoesNotThrow( () -> {
             File ttf = ResLoader.getInstance().getFile("wendy.ttf");
+            TTFParser parser = new TTFParser(ttf);
+            maxp = (MaxP) parser.getTable(MaxP.TAG);
+            head = (Head) parser.getTable(Head.TAG);
             in = new TTFReader(ttf);
-            in.mark(100000);
             ttfHead = new TTFHead();
             ttfHead.read(in);
-            in.reset();
-
-            HeadTable ht = ttfHead.getHeadTable(MaxP.TAG);
-            in.mark((int) ht.getSize().unsigned());
-            in.skip(ht.getOffSet().unsigned());
-            maxp = new MaxP(ht);
-            maxp.read(in);
-            in.reset();
-
-            ht = ttfHead.getHeadTable(Head.TAG);
-            in.mark((int) ht.getSize().unsigned());
-            in.skip(ht.getOffSet().unsigned());
-            head = new Head(ht);
-            head.read(in);
-            in.reset();
         });
     }
 

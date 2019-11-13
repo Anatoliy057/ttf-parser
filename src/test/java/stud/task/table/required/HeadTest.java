@@ -22,10 +22,8 @@ class HeadTest {
         assertDoesNotThrow( () -> {
             File ttf = ResLoader.getInstance().getFile("wendy.ttf");
             in = new TTFReader(ttf);
-            in.mark(100000);
             ttfHead = new TTFHead();
             ttfHead.read(in);
-            in.reset();
         });
     }
 

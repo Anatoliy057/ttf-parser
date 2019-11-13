@@ -2,6 +2,7 @@ package stud.task.table.required;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import stud.task.TTFParser;
 import stud.task.service.ResLoader;
 import stud.task.table.TTFHead;
 import stud.task.table.domain.HeadTable;
@@ -23,25 +24,12 @@ class HMtxTest {
     void setUp() {
         assertDoesNotThrow( () -> {
             File ttf = ResLoader.getInstance().getFile("wendy.ttf");
+            TTFParser parser = new TTFParser(ttf);
+            maxp = (MaxP) parser.getTable(MaxP.TAG);
+            hhea = (HHea) parser.getTable(HHea.TAG);
             in = new TTFReader(ttf);
-            in.mark(100000);
             ttfHead = new TTFHead();
             ttfHead.read(in);
-            in.reset();
-
-            HeadTable ht = ttfHead.getHeadTable(MaxP.TAG);
-            in.mark((int) ht.getSize().unsigned());
-            in.skip(ht.getOffSet().unsigned());
-            maxp = new MaxP(ht);
-            maxp.read(in);
-            in.reset();
-
-            ht = ttfHead.getHeadTable(HHea.TAG);
-            in.mark((int) ht.getSize().unsigned());
-            in.skip(ht.getOffSet().unsigned());
-            hhea = new HHea(ht);
-            hhea.read(in);
-            in.reset();
         });
     }
 
@@ -52,7 +40,6 @@ class HMtxTest {
             in.skip(ht.getOffSet().unsigned());
             HMtx hmtx = new HMtx(ht, hhea, maxp);
             hmtx.read(in);
-            System.out.println(hmtx);
         });
     }
 }

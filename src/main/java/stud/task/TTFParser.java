@@ -62,6 +62,11 @@ public class TTFParser {
         ttfHead = new TTFHead();
     }
 
+    public TTFParser(File file) throws IOException, TTFTableFormatException {
+        this();
+        parse(file);
+    }
+
     public void parse(File file) throws IOException, TTFTableFormatException {
         TTFInputStream in = createIN(file);
         parse(in);
@@ -165,6 +170,10 @@ public class TTFParser {
 
     public ReadableTable getTable(Tag tag) {
         return tables.get(tag);
+    }
+
+    public HeadTable getHeadTable(Tag tag) {
+        return ttfHead.getHeadTable(tag);
     }
 
     private TTFInputStream createIN(File file) throws FileNotFoundException {

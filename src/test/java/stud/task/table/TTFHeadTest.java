@@ -25,8 +25,10 @@ class TTFHeadTest {
     @Test
     void expectDoesNotThrowOnInit() {
         assertDoesNotThrow(() -> {
+            long start = in.available();
             TTFHead ttfHead = new TTFHead();
             ttfHead.read(in);
+            assertEquals(start, in.available());
         });
     }
 }
